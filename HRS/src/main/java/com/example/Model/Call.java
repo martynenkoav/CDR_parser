@@ -21,6 +21,7 @@ public class Call {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String number;
     private String _call_type;
     private Date _beginning;
     private Date _ending;
@@ -35,6 +36,14 @@ public class Call {
         this._beginning = beginning;
         this._ending = ending;
         this._cost = 0.00;
+    }
+
+    public String getNumber(){
+        return number;
+    }
+
+    public void setNumber(String number){
+        this.number = number;
     }
 
     public void setCallType(String _call_type) {

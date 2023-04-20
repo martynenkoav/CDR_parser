@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @EntityScan(basePackages = {"com.example.*"})
 @EnableJpaRepositories(basePackages = {"com.example.*"})
 public class TestApplication {
+
     public static void main(String[] args){
         SpringApplication.run(TestApplication.class);
     }

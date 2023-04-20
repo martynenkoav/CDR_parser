@@ -1,8 +1,8 @@
 package com.example.ServiceImpl;
 
+import com.example.DTO.NumberBalance;
 import com.example.Repository.UserRepository;
 import com.example.Service.Parser;
-import com.example.Service.ParserCDRPlus;
 import com.example.Model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +10,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -22,15 +21,15 @@ import java.text.ParseException;
 public class ParserImpl implements Parser {
     private final UserRepository userRepository;
 
-    private final ParserCDRPlusImpl parserCDRPlus;
+    private final UserCallServiceImpl userCallService;
 
-    public void parse(File file) throws IOException, ParseException {
+    public List<NumberBalance> parse(File file) throws IOException, ParseException {
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
         String line;
        // BufferedWriter writer = new BufferedWriter(new FileWriter("./Payload/cdr+.txt", true));
         File newFile = new ClassPathResource("cdr+.txt").getFile();
-            BufferedWriter writer = new BufferedWriter(new FileWriter(newFile, true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(newFile, false));
             while((line = br.readLine()) != null){
                 String lineCur = line;
                 line = line.replaceAll("\\s", "");
@@ -44,11 +43,38 @@ public class ParserImpl implements Parser {
                 }
             }
             writer.close();
-            this.parserCDRPlus.parse(newFile);
+            File fileWithBalance = this.userCallService.parse(newFile);
+            parseFileWithBalance(fileWithBalance);
+            return getNumbersAndBalance();
+
     }
 
     @Override
     public Double getBalanceByNumber(String number) {
         return null;
     }
+
+    public void parseFileWithBalance(File file) throws IOException {
+        FileReader fr = new FileReader(file);
+        BufferedReader br = new BufferedReader(fr);
+        String line;
+        while((line = br.readLine()) != null){
+            String[] words = line.split(" ");
+            User user = this.userRepository.getUserByNumber(words[0]);
+            user.setBalance(user.getBalance()-Double.parseDouble(words[1]));
+            this.userRepository.save(user);
+
+        }
+    }
+
+    public List<NumberBalance> getNumbersAndBalance(){
+        List<NumberBalance> numbers = new ArrayList<>();
+        List<User> users = this.userRepository.findAll();
+        for (User user: users) {
+            NumberBalance number = new NumberBalance(user.getNumber(), user.getBalance());
+            numbers.add(number);
+        }
+        return numbers;
+    }
+
 }
