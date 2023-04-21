@@ -1,11 +1,12 @@
 package com.example.Repository;
 
-import com.example.Model.User;
+import com.example.Model.UserData;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.Optional;
 
-    User getUserByNumber(String number);
+public interface UserRepository extends JpaRepository<UserData, Long> {
 
+    UserData getUserByNumber(String number);
 
 }

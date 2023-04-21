@@ -22,6 +22,8 @@ import java.util.List;
 
 
 public class UserCall {
+    private Long id;
+    private String number;
     private String _tariffType;
     private ArrayList<Call> _callList;
     private Double _totalCost;

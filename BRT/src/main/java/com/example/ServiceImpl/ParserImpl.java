@@ -3,7 +3,7 @@ package com.example.ServiceImpl;
 import com.example.DTO.NumberBalance;
 import com.example.Repository.UserRepository;
 import com.example.Service.Parser;
-import com.example.Model.User;
+import com.example.Model.UserData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -36,7 +36,7 @@ public class ParserImpl implements Parser {
                 line = line.replaceAll(",", " ");
                 String[] words = line.split(" ");
                 if (this.userRepository.getUserByNumber(words[1]) != null) {
-                    User curUser = this.userRepository.getUserByNumber(words[1]);
+                    UserData curUser = this.userRepository.getUserByNumber(words[1]);
                     if (curUser.getBalance() > 0) {
                         writer.write(lineCur + ", " + curUser.getTariffId() + "\n");
                     }
@@ -49,10 +49,6 @@ public class ParserImpl implements Parser {
 
     }
 
-    @Override
-    public Double getBalanceByNumber(String number) {
-        return null;
-    }
 
     public void parseFileWithBalance(File file) throws IOException {
         FileReader fr = new FileReader(file);
@@ -60,7 +56,7 @@ public class ParserImpl implements Parser {
         String line;
         while((line = br.readLine()) != null){
             String[] words = line.split(" ");
-            User user = this.userRepository.getUserByNumber(words[0]);
+            UserData user = this.userRepository.getUserByNumber(words[0]);
             user.setBalance(user.getBalance()-Double.parseDouble(words[1]));
             this.userRepository.save(user);
 
@@ -69,8 +65,8 @@ public class ParserImpl implements Parser {
 
     public List<NumberBalance> getNumbersAndBalance(){
         List<NumberBalance> numbers = new ArrayList<>();
-        List<User> users = this.userRepository.findAll();
-        for (User user: users) {
+        List<UserData> users = this.userRepository.findAll();
+        for (UserData user: users) {
             NumberBalance number = new NumberBalance(user.getNumber(), user.getBalance());
             numbers.add(number);
         }
