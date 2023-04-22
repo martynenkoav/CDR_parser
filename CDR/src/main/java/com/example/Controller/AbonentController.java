@@ -1,10 +1,11 @@
 package com.example.Controller;
 
 import com.example.DTO.NumberBalance;
-import com.example.ServiceImpl.UserServiceImpl;
+import com.example.ServiceImpl.UserDataServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +16,12 @@ import java.text.ParseException;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
-public class SubcriberController {
-  //  private final ParserImpl parserImpl;
+@RequestMapping("/api/abonent")
+@PreAuthorize("hasRole('ROLE_ABONENT')")
+public class AbonentController {
 
-    private final UserServiceImpl userService;
-    @PatchMapping(value = "/abonent/pay")
+    private final UserDataServiceImpl userService;
+    @PatchMapping(value = "/pay")
     public ResponseEntity<NumberBalance> pay(@RequestBody NumberBalance numberBalance) throws IOException, ParseException {
         String number = numberBalance.getNumber();
         Double money = numberBalance.getBalance();

@@ -1,5 +1,5 @@
 package com.example.Service;
 
-public interface UserService {
+public interface UserDataService {
     boolean userExists(String number);
 }

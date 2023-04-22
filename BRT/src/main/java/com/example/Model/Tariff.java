@@ -7,12 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-enum TARIFF_NAME
-{
-    UNLIMITTED,
-    PERMINUTE,
-    BASIC,
-}
 
 @Data
 @AllArgsConstructor
@@ -21,9 +15,9 @@ enum TARIFF_NAME
 @Entity
 public class Tariff {
     @Id
-    private Integer id;
+    private String id;
 
-    private TARIFF_NAME name;
+    private String name;
 
 
 }

@@ -2,40 +2,77 @@ package com.example.Controller;
 
 import com.example.DTO.NumberBalance;
 import com.example.DTO.NumberTariff;
+import com.example.Model.User;
 import com.example.Model.UserData;
-import com.example.ServiceImpl.UserServiceImpl;
+import com.example.Service.UserService;
+import com.example.ServiceImpl.ParserImpl;
+import com.example.ServiceImpl.UserDataServiceImpl;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/manager")
+
 public class ManagerController {
-    private final UserServiceImpl userService;
+    private final ParserImpl parserImpl;
+
+    private final UserDataServiceImpl userDataService;
+
+    private final UserService userService;
+
+
+    @PostConstruct
+    @GetMapping(value = "/billing")
+    public ResponseEntity<List<NumberBalance>> billing() throws IOException, ParseException {
+        File file = new ClassPathResource("static/cdr.txt").getFile();
+        if (!file.exists()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            List<NumberBalance> numbers = this.parserImpl.parse(file);
+            return new ResponseEntity<>(numbers, HttpStatus.OK);
+        }
+    }
 
     @PatchMapping(value = "/changeTariff")
     public ResponseEntity<NumberTariff> changeTariff(@RequestBody NumberTariff numberTariff) throws IOException, ParseException {
         String number = numberTariff.getNumber();
         String tariffId = numberTariff.getTariffId();
-        if (!this.userService.userExists(number)) {
+        if (!this.userDataService.userExists(number)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            NumberTariff numberTariffNew = this.userService.changeTariff(number, tariffId);
+            NumberTariff numberTariffNew = this.userDataService.changeTariff(number, tariffId);
             return new ResponseEntity<>(numberTariffNew, HttpStatus.OK);
         }
     }
 
+
     @PostMapping(value = "/abonent")
     public ResponseEntity<UserData> createSubscriber(@RequestBody UserData userData) throws IOException, ParseException {
-        if (this.userService.userExists(userData.getNumber())) {
+        if (this.userDataService.userExists(userData.getNumber())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(this.userService.save(userData), HttpStatus.OK);
+            this.userDataService.save(userData);
+            Long id = this.userDataService.getUserDataId(userData.getNumber());
+            User user = new User();
+            user.setPassword(userData.getNumber());
+            user.setUsername(userData.getNumber());
+            user.setUserDataId(id);
+            user.setRoles("ROLE_ABONENT");
+            this.userService.save(user);
+            return new ResponseEntity<>(this.userDataService.save(userData), HttpStatus.OK);
         }
     }
 }

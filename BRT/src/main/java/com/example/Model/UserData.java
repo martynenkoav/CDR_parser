@@ -1,10 +1,7 @@
 package com.example.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
@@ -23,5 +20,11 @@ public class UserData {
     private Double balance;
 
     private String tariffId;
+
+    public UserData(String number, String tariffId, Double balance){
+        this.number = number;
+        this.tariffId = tariffId;
+        this.balance = balance;
+    }
 
 }
