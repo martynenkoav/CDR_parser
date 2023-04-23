@@ -36,7 +36,6 @@ public class ParserImpl implements Parser {
         BufferedWriter writer = new BufferedWriter(new FileWriter(newFile, false));
         while ((line = br.readLine()) != null) {
             String lineCur = line;
-            System.out.println(lineCur);
             line = line.replaceAll("\\s", "");
             line = line.replaceAll(",", " ");
             String[] words = line.split(" ");

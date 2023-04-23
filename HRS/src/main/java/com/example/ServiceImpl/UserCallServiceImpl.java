@@ -66,26 +66,24 @@ public class UserCallServiceImpl implements UserCallService {
     public void count_tariff(UserCall userCall, List<Condition> conditions) {
         String _tariffType = userCall.getTariffType();
         List<Call> _callList = userCall.getCallList();
-        Integer _totalMinutes = userCall.getTotalMinutes();
         switch (_tariffType) {
             case ("06"):
                 _callList.forEach((call) -> {
+                    Integer _totalMinutes = userCall.getTotalMinutes();
                     Integer maxMinutes = conditions.get(0).getMaxMinutes();
                     Double fixPrice = conditions.get(0).getFixPrice();
                     Double _totalCost = userCall.getTotalCost();
                     if (_totalMinutes + call.getDurationInMin() > maxMinutes) {
                         if (_totalMinutes > maxMinutes) {
                             call.setCost(call.getDurationInMin() * conditions.get(1).getPerMinute());
-                            userCall.minutesAndCost(call);
-                            this.callService.save(call);
                         } else {
                             if (_totalCost == 0) {
                                 userCall.setTotalCost(fixPrice);
                             }
                             call.setCost((double) (_totalMinutes + call.getDurationInMin() - maxMinutes));
-                            userCall.minutesAndCost(call);
-                            this.callService.save(call);
                         }
+                        userCall.minutesAndCost(call);
+                        this.callService.save(call);
                     } else {
                         if (_totalCost == 0) {
                             userCall.setTotalCost(fixPrice);
@@ -105,6 +103,7 @@ public class UserCallServiceImpl implements UserCallService {
             case ("11"):
                 _callList.forEach((call) -> {
                     if (call.isOutgoingCall()) {
+                        Integer _totalMinutes = userCall.getTotalMinutes();
                         Integer maxMinutes = conditions.get(1).getMaxMinutes();
                         Double perMinuteUnderMax = conditions.get(1).getPerMinute();
                         Double perMinute = conditions.get(2).getPerMinute();
@@ -112,7 +111,7 @@ public class UserCallServiceImpl implements UserCallService {
                             if (_totalMinutes > maxMinutes) {
                                 call.setCost((call.getDurationInMin()) * perMinute);
                             } else {
-                                call.setCost((_totalMinutes + call.getDurationInMin() - maxMinutes) * perMinute + maxMinutes * perMinuteUnderMax);
+                                call.setCost((_totalMinutes + call.getDurationInMin() - maxMinutes) * perMinute + (maxMinutes - _totalMinutes) * perMinuteUnderMax);
                             }
                         } else {
                             call.setCost(call.getDurationInMin() * perMinuteUnderMax);
