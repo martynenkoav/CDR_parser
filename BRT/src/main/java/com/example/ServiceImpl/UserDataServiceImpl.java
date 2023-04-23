@@ -45,4 +45,9 @@ public class UserDataServiceImpl implements UserDataService {
     public Long getUserDataId(String number){
         return this.userDataRepository.getUserByNumber(number).getId();
     }
+
+    public UserData getUserByNumber(String number){
+        return this.userDataRepository.getUserByNumber(number);
+    }
+
 }
