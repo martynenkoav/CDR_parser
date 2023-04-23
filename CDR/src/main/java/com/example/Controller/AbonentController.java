@@ -21,13 +21,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/abonent")
-/*@PreAuthorize("hasRole('ROLE_ABONENT')")*/
 public class AbonentController {
     private final UserDataServiceImpl userDataService;
 
     private final UserDataServiceImpl userService;
 
     private final CallServiceImpl callService;
+
 
     @PatchMapping(value = "/pay")
     public ResponseEntity<NumberBalance> pay(@RequestBody NumberBalance numberBalance) throws IOException, ParseException {
@@ -40,6 +40,7 @@ public class AbonentController {
             return new ResponseEntity<>(numberBalanceNew, HttpStatus.OK);
         }
     }
+
 
     @GetMapping(value = "/report/{numberPhone}")
     public ResponseEntity<ReportPayload> pay(@PathVariable("numberPhone") String numberPhone) throws IOException, ParseException {

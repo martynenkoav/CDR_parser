@@ -29,9 +29,10 @@ public class ParserImpl implements Parser {
         String line;
        // BufferedWriter writer = new BufferedWriter(new FileWriter("./Payload/cdr+.txt", true));
         File newFile = new ClassPathResource("cdr+.txt").getFile();
-            BufferedWriter writer = new BufferedWriter(new FileWriter(newFile, false));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(newFile, false));
             while((line = br.readLine()) != null){
                 String lineCur = line;
+                System.out.println(lineCur);
                 line = line.replaceAll("\\s", "");
                 line = line.replaceAll(",", " ");
                 String[] words = line.split(" ");

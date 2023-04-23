@@ -22,20 +22,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private static final String[] AUTH_WHITELIST = {
-            // -- Swagger UI v2
-            "/v2/api-docs",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**",
-            // -- Swagger UI v3 (OpenAPI)
-            "/v3/api-docs/**",
-            "/swagger-ui/**"
-            // other public endpoints of your API may be appended to this array
-    };
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -46,10 +32,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/api/abonent/report/**").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/api/manager/**")
-                .authenticated().and().formLogin().and().build();
+                .authorizeHttpRequests().requestMatchers("/api/manager/**").hasAuthority("ROLE_MANAGER")
+                .requestMatchers("/api/abonent/**").hasAuthority("ROLE_ABONENT")
+                .and().formLogin().and().build();
     }
 
     @Bean

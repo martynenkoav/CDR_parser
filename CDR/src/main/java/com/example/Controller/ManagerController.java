@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,13 +22,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/manager")
-
 public class ManagerController {
     private final ParserImpl parserImpl;
 
     private final UserDataServiceImpl userDataService;
 
     private final UserService userService;
+
 
 
     @PostConstruct
