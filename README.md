@@ -50,4 +50,13 @@ fix_price 0, max_minutes 0, per_minute 1.5, tariff_id 82, type 12, destination "
 Баланс пользователя стал 629, что также соответсвует ожадемому результату
 ![image](https://user-images.githubusercontent.com/24692953/233865213-f42a8e22-e6d8-4a03-884b-05487196ba55.png)
 
+У пользователя вот такие данные:
+![image](https://user-images.githubusercontent.com/24692953/233866321-60914157-1603-415a-a779-ca83ae21688b.png)
+
+![image](https://user-images.githubusercontent.com/24692953/233866360-c2aa1dcd-5a91-4447-ab1b-e8aff6974656.png)
+Длительность первого звонка 11 минут, второго 301 минута. Суммарно 312 минут, то есть ожиаемый результат 112 рублей.
+
+![image](https://user-images.githubusercontent.com/24692953/233866440-972a0dd6-6a49-43b7-a7a6-217e37855fef.png)
+Видим, что списали с абонента действительно 112 рублей рублей тарифф также работает корректно.
+
 
