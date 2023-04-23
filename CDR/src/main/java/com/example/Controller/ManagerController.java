@@ -19,16 +19,20 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+/*
+Контроллер, содержащий эндпоинты для менеджера
+ */
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/manager")
 public class ManagerController {
+
     private final ParserImpl parserImpl;
 
     private final UserDataServiceImpl userDataService;
 
     private final UserService userService;
-
 
 
     @PostConstruct
@@ -61,6 +65,8 @@ public class ManagerController {
         if (this.userDataService.userExists(userData.getNumber())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
+            //добавляем пользователя в две таблицы: users и users_data
+            //логин и пароль равны номеру абонента
             this.userDataService.save(userData);
             Long id = this.userDataService.getUserDataId(userData.getNumber());
             User user = new User();

@@ -18,10 +18,15 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+Контроллер, содержащий все три эндпоинтта абонента
+ */
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/abonent")
 public class AbonentController {
+
     private final UserDataServiceImpl userDataService;
 
     private final UserDataServiceImpl userService;
@@ -33,7 +38,9 @@ public class AbonentController {
     public ResponseEntity<NumberBalance> pay(@RequestBody NumberBalance numberBalance) throws IOException, ParseException {
         String number = numberBalance.getNumber();
         Double money = numberBalance.getBalance();
-        if (!this.userService.userExists(number) || money <= 0 ) {
+        //проверка на несуществующего пользователя
+        //проверка что складываемая сумма больше нуля
+        if (!this.userService.userExists(number) || money <= 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             NumberBalance numberBalanceNew = this.userService.pay(number, money);
@@ -50,7 +57,7 @@ public class AbonentController {
             UserData userData = this.userDataService.getUserByNumber(numberPhone);
             List<Call> calls = this.callService.getAllByNumber(numberPhone);
             List<CallDTO> payload = new ArrayList<>();
-            for (Call call: calls){
+            for (Call call : calls) {
                 CallDTO callDTO = new CallDTO(call);
                 payload.add(callDTO);
             }

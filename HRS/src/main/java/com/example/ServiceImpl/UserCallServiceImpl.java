@@ -24,6 +24,7 @@ public class UserCallServiceImpl implements UserCallService {
     private final ConditionServiceImpl conditionService;
     private final CallServiceImpl callService;
 
+    //Функция, который необходим для парсинга файла cdr+.txt
     public File parse(File file) throws IOException, ParseException {
         HashMap<String, UserCall> map = new HashMap<String, UserCall>();
         FileReader fr = new FileReader(file);
@@ -49,29 +50,32 @@ public class UserCallServiceImpl implements UserCallService {
         newFile.setWritable(true);
         BufferedWriter writer = new BufferedWriter(new FileWriter(newFile, false));
         map.forEach((k, v) -> {
-                try {
-                    writer.write(k + " " + v.getTotalCost() + "\n");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            try {
+                writer.write(k + " " + v.getTotalCost() + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         writer.close();
         return newFile;
     }
 
+    //Здесь происходит подсчет тарифа
+    //Для каждого тарифа в таблице conditions содержатся условия этого тарифа
+    //Данная функци осущесвляет логику подсчета тарифоф на основе условий, указанных в бд
     public void count_tariff(UserCall userCall, List<Condition> conditions) {
         String _tariffType = userCall.getTariffType();
         List<Call> _callList = userCall.getCallList();
         Integer _totalMinutes = userCall.getTotalMinutes();
         switch (_tariffType) {
-            case ("06") :
+            case ("06"):
                 _callList.forEach((call) -> {
                     Integer maxMinutes = conditions.get(0).getMaxMinutes();
                     Double fixPrice = conditions.get(0).getFixPrice();
                     Double _totalCost = userCall.getTotalCost();
                     if (_totalMinutes + call.getDurationInMin() > maxMinutes) {
                         if (_totalMinutes > maxMinutes) {
-                            call.setCost(call.getDurationInMin()* conditions.get(1).getPerMinute());
+                            call.setCost(call.getDurationInMin() * conditions.get(1).getPerMinute());
                             userCall.minutesAndCost(call);
                             this.callService.save(call);
                         } else {
@@ -91,14 +95,14 @@ public class UserCallServiceImpl implements UserCallService {
                     }
                 });
                 break;
-            case ("03") :
+            case ("03"):
                 _callList.forEach((call) -> {
                     call.setCost(call.getDurationInMin() * conditions.get(0).getPerMinute());
                     userCall.minutesAndCost(call);
                     this.callService.save(call);
                 });
                 break;
-            case ("11") :
+            case ("11"):
                 _callList.forEach((call) -> {
                     if (call.isOutgoingCall()) {
                         Integer maxMinutes = conditions.get(1).getMaxMinutes();

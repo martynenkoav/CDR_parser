@@ -13,12 +13,11 @@ public class TariffDTO {
 
     private Integer id;
 
-    //скорее всего нужно поменять на енам
     private String name;
 
     private List<Condition> conditions;
 
-    public TariffDTO(Integer id, String name){
+    public TariffDTO(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

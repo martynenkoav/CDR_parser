@@ -6,6 +6,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+Вспомогательный класс, для формирования полного response для запроса api/abonent/report/numberPhone
+ */
+
 @Setter
 @Getter
 public class ReportPayload {
@@ -16,15 +20,16 @@ public class ReportPayload {
     private Double totalCost;
     private final String monetaryUnit = "rubles";
 
-    public ReportPayload(Long id, String number, String tariffIndex, List<CallDTO> payload){
+    public ReportPayload(Long id, String number, String tariffIndex, List<CallDTO> payload) {
         this.id = id;
         this.number = number;
         this.tariffIndex = tariffIndex;
         this.payload = payload;
         this.totalCost = 0.00;
     }
-    public void countTotalCost(){
-        for (CallDTO callDTO: payload){
+
+    public void countTotalCost() {
+        for (CallDTO callDTO : payload) {
             this.totalCost += callDTO.getCost();
         }
     }

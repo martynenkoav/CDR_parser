@@ -18,9 +18,9 @@ public class UserDetailsImpl implements UserDetails {
     private List<GrantedAuthority> authorities;
 
     public UserDetailsImpl(User user) {
-        this.username=user.getUsername();
-        this.password=user.getPassword();
-        this.authorities= Arrays.stream(user.getRoles().split(","))
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.authorities = Arrays.stream(user.getRoles().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

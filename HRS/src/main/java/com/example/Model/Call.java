@@ -28,21 +28,21 @@ public class Call {
     private Double _duration;
     private Double _cost;
 
-    public Call() {}
+    public Call() {
+    }
 
-    public Call(String call_type, Date beginning, Date ending)
-    {
+    public Call(String call_type, Date beginning, Date ending) {
         this._call_type = call_type;
         this._beginning = beginning;
         this._ending = ending;
         this._cost = 0.00;
     }
 
-    public String getNumber(){
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(String number){
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -71,8 +71,8 @@ public class Call {
     }
 
 
-    public void setDuration(){
-        this._duration = (Math.ceil(this._ending.getTime()-this._beginning.getTime()) / 1000);
+    public void setDuration() {
+        this._duration = (Math.ceil(this._ending.getTime() - this._beginning.getTime()) / 1000);
     }
 
     public Double getDurationInSec() {
@@ -80,7 +80,7 @@ public class Call {
     }
 
     public Integer getDurationInMin() {
-        return (int)Math.ceil(_duration/60);
+        return (int) Math.ceil(_duration / 60);
     }
 
     public Double getCost() {
@@ -91,8 +91,8 @@ public class Call {
         this._cost = cost;
     }
 
-    public boolean isOutgoingCall(){
-        if (Objects.equals(_call_type, "01")){
+    public boolean isOutgoingCall() {
+        if (Objects.equals(_call_type, "01")) {
             return true;
         } else {
             return false;

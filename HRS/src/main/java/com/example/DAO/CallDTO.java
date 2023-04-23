@@ -5,7 +5,10 @@ import com.example.Model.Call;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+/*
+Класс, необходимый для реформатирования информации о звонке
+для запроса /api/abonent/report/{numberPhone}
+ */
 
 @Getter
 @Setter
@@ -16,7 +19,7 @@ public class CallDTO {
     private String duration;
     private Double cost;
 
-    public CallDTO(Call call){
+    public CallDTO(Call call) {
         this.callType = call.get_call_type();
         this.startTime = FormatData.formattedDate(call.get_beginning());
         this.endTime = FormatData.formattedDate(call.get_ending());

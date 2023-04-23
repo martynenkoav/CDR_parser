@@ -11,8 +11,7 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 
-enum TARIFF_NAME
-{
+enum TARIFF_NAME {
     UNLIMITTED,
     PERMINUTE,
     BASIC,
@@ -23,7 +22,7 @@ enum TARIFF_NAME
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name= "tariffs")
+@Table(name = "tariffs")
 public class Tariff {
     @Id
     private String id;

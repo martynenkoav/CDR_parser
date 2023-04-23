@@ -19,16 +19,16 @@ public class FormatData {
         return formatter.parse(dateInString);
     }
 
-    public static String formattedDate(Date date){
+    public static String formattedDate(Date date) {
         SimpleDateFormat formatForDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return formatForDate.format(date);
     }
 
-    public static String secToStr(double duration){
-        return String.format("%02d:%02d:%02d", (int)duration / 3600, (int)duration / 60 % 60, (int)duration % 60);
+    public static String secToStr(double duration) {
+        return String.format("%02d:%02d:%02d", (int) duration / 3600, (int) duration / 60 % 60, (int) duration % 60);
     }
 
-    public static String formatCost(double cost){
+    public static String formatCost(double cost) {
         return new DecimalFormat("#0.00").format(cost).replace(',', '.');
     }
 

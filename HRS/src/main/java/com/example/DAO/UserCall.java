@@ -20,7 +20,6 @@ import java.util.List;
 * */
 
 
-
 public class UserCall {
     private Long id;
     private String number;
@@ -30,7 +29,7 @@ public class UserCall {
     private Integer _totalMinutes;
 
     //?
-    public UserCall(String tariffType){
+    public UserCall(String tariffType) {
         _tariffType = tariffType;
         _callList = new ArrayList<Call>();
         _totalCost = 0.00;
@@ -69,18 +68,18 @@ public class UserCall {
         this._callList = _callList;
     }
 
-    public void addCdr(Call call){
+    public void addCdr(Call call) {
         this._callList.add(call);
     }
 
-    public void minutesAndCost(Call call){
+    public void minutesAndCost(Call call) {
         _totalCost += call.getCost();
         _totalMinutes += call.getDurationInMin();
     }
 
-    public void sortCallsList(){
+    public void sortCallsList() {
         Collections.sort(_callList, Comparator.comparing(Call::getBeginning));
     }
 
-    }
+}
 

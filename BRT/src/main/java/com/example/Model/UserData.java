@@ -3,6 +3,9 @@ package com.example.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
+/*
+UserData - Entity для информации об абонентах: баланс, номер и айди тарифа
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +24,7 @@ public class UserData {
 
     private String tariffId;
 
-    public UserData(String number, String tariffId, Double balance){
+    public UserData(String number, String tariffId, Double balance) {
         this.number = number;
         this.tariffId = tariffId;
         this.balance = balance;

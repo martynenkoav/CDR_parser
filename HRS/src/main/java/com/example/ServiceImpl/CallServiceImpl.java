@@ -21,7 +21,7 @@ public class CallServiceImpl implements CallService {
         this.callRepository.save(call);
     }
 
-    public List<Call> getAllByNumber(String number){
+    public List<Call> getAllByNumber(String number) {
         return this.callRepository.getAllByNumber(number);
     }
 }

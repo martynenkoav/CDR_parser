@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/*
+Entity для тарифов, хранит в себе только айди тарифа и его имя
+* */
 
 @Data
 @AllArgsConstructor
@@ -18,6 +21,5 @@ public class Tariff {
     private String id;
 
     private String name;
-
 
 }

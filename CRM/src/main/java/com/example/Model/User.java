@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+/*
+Entity для информации о юзере, необходимой для спринг секьюрити
+username, password, roles
+ */
 
 @RequiredArgsConstructor
 @Entity
