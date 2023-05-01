@@ -20,10 +20,10 @@ public class CallDTO {
     private Double cost;
 
     public CallDTO(Call call) {
-        this.callType = call.get_call_type();
-        this.startTime = FormatData.formattedDate(call.get_beginning());
-        this.endTime = FormatData.formattedDate(call.get_ending());
+        this.callType = call.getCall_type();
+        this.startTime = FormatData.formattedDate(call.getBeginning());
+        this.endTime = FormatData.formattedDate(call.getEnding());
         this.duration = FormatData.secToStr(call.getDurationInSec());
-        this.cost = call.get_cost();
+        this.cost = call.getCost();
     }
 }
