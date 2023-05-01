@@ -1,0 +1,50 @@
+version: '1'
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    # Проверка готовности БД к работе.
+    healthcheck:
+      test: [ "CMD", "pg_isready","-d","postgres","-U","postgres" ]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+      start_period: 5s
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "mamapapa"
+      POSTGRES_DB: "BRT_db"
+    # Используемый тип сети при запуске container.
+    network_mode: host
+    # Добавление файла data.sql, в котором хранятся скрипты инициализации БД.
+    volumes:
+      - ./volumes/data.sql:/docker-entrypoint-initdb.d/data.sql
+    restart: always
+  brt-server:
+    build: ./BRT
+    ports:
+      - 8900:8900
+  cdr-server:
+    image: cdr
+    ports:
+      - 8802:8802
+    networks:
+      - spring-cloud-network
+  crm-server:
+    image: crm
+    ports:
+      - 8805:8805
+    networks:
+      - spring-cloud-network
+  hrs-server:
+    image: hrs
+    ports:
+      - 8808:8808
+    networks:
+      - spring-cloud-network
+
+networks:
+  spring-cloud-network:
+    driver: bridge
